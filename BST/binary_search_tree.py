@@ -77,6 +77,26 @@ class BinarySearchTree:
 
         return 1 + max(left_height, right_height)
 
+    def get_inorder_successor(self, currentnode):
+        if currentnode is None:
+            return None
+        elif currentnode.left is None:
+            return currentnode
+        else:
+            return self.get_inorder_successor(currentnode.left)
+
+    def is_bst_utils(self, currentroot, min_value, max_value):
+        if currentroot.val < min_value or currentroot.val >= max_value:
+            return False
+        elif currentroot.left and not self.is_bst_utils(currentroot.left, min_value, currentroot.val):
+            return False
+        elif currentroot.right and not self.is_bst_utils(currentroot.right, currentroot.val, max_value):
+            return False
+        return True
+
+    def is_bst(self, currentroot):
+        return self.is_bst_utils(currentroot, float("-inf"), float("inf"))
+
 
 def get_test_graph_1():
     dg = BinarySearchTree()
@@ -98,6 +118,10 @@ def test_find():
     dg1 = get_test_graph_1()
     p1 = dg1.find(5)
     height = dg1.get_tree_height(dg1.root)
+    insucc = dg1.get_inorder_successor(dg1.root)
+    isbst = dg1.is_bst(dg1.root)
+    print(isbst)
+    print(insucc.val)
     assert(p1 is True)
     assert(6 == height)
 
