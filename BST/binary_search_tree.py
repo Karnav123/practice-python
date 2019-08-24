@@ -97,6 +97,31 @@ class BinarySearchTree:
     def is_bst(self, currentroot):
         return self.is_bst_utils(currentroot, float("-inf"), float("inf"))
 
+    def delete_node(self, current_node, value):
+        if current_node is None:
+            return current_node
+        if value < current_node.val:
+            if current_node.left is not None:
+                current_node.left = self.delete_node(current_node.left, value)
+        elif value > current_node.val:
+            if current_node.right is not None:
+                current_node.right = self.delete_node(current_node.right, value)
+        else:
+            # if the node to be deleted is a leaf node or has 
+            # only one child
+            if current_node.left is None : 
+                temp = current_node.right  
+                current_node = None 
+                return temp  
+              
+            elif current_node.right is None : 
+                temp = current_node.left  
+                current_node = None
+                return temp 
+
+            # if the node to be deleted has 2 child
+        return current_node
+
 
 def get_test_graph_1():
     dg = BinarySearchTree()
@@ -116,10 +141,15 @@ def get_test_graph_1():
 
 def test_find():
     dg1 = get_test_graph_1()
+    print("Initial=========================")
+    dg1.printinorder(dg1.root)
     p1 = dg1.find(5)
     height = dg1.get_tree_height(dg1.root)
     insucc = dg1.get_inorder_successor(dg1.root)
     isbst = dg1.is_bst(dg1.root)
+    dg1.delete_node(dg1.root, 4)
+    print("After Deletion===================")
+    dg1.printinorder(dg1.root)
     print(isbst)
     print(insucc.val)
     assert(p1 is True)
