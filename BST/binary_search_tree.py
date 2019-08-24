@@ -97,6 +97,7 @@ class BinarySearchTree:
     def is_bst(self, currentroot):
         return self.is_bst_utils(currentroot, float("-inf"), float("inf"))
 
+    # O(n) Time complexity
     def delete_node(self, current_node, value):
         if current_node is None:
             return current_node
@@ -124,6 +125,17 @@ class BinarySearchTree:
 
             return current_node
 
+    def get_minimum(self, current_node):
+        if current_node.left is None:
+            return current_node.val
+        return self.get_minimum(current_node.left)
+
+    def get_maximum(self, current_node):
+        if current_node.right is None:
+            return current_node.val
+        return self.get_maximum(current_node.right)
+        
+
 
 def get_test_graph_1():
     dg = BinarySearchTree()
@@ -147,8 +159,9 @@ def test_find():
     height = dg1.get_tree_height(dg1.root)
     insucc = dg1.get_inorder_successor(dg1.root)
     isbst = dg1.is_bst(dg1.root)
-    dg1.delete_node(dg1.root, 6)
-
+    min = dg1.get_minimum(dg1.root)
+    dg1.delete_node(dg1.root, 1)
+    max = dg1.get_maximum(dg1.root)
     dg1.printinorder(dg1.root)
     print(isbst)
     print(insucc.val)
