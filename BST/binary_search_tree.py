@@ -113,14 +113,16 @@ class BinarySearchTree:
                 temp = current_node.right  
                 current_node = None 
                 return temp  
-              
             elif current_node.right is None : 
                 temp = current_node.left  
                 current_node = None
                 return temp 
+            else:   # if the node to be deleted has 2 child
+                temp_node = self.get_inorder_successor(current_node.right)
+                current_node.val = temp_node.val
+                current_node.right = self.delete_node(current_node.right, temp_node.val)
 
-            # if the node to be deleted has 2 child
-        return current_node
+            return current_node
 
 
 def get_test_graph_1():
@@ -141,14 +143,12 @@ def get_test_graph_1():
 
 def test_find():
     dg1 = get_test_graph_1()
-    print("Initial=========================")
-    dg1.printinorder(dg1.root)
     p1 = dg1.find(5)
     height = dg1.get_tree_height(dg1.root)
     insucc = dg1.get_inorder_successor(dg1.root)
     isbst = dg1.is_bst(dg1.root)
-    dg1.delete_node(dg1.root, 4)
-    print("After Deletion===================")
+    dg1.delete_node(dg1.root, 6)
+
     dg1.printinorder(dg1.root)
     print(isbst)
     print(insucc.val)
