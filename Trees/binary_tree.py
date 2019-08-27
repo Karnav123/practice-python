@@ -71,6 +71,27 @@ class BinaryTree:
             if temp_node.right is not None:
                 q.put(temp_node.right)
 
+    def get_right_most_node(self, currentnode):
+        if currentnode is None:
+            return currentnode
+        while currentnode.right is not None:
+            currentnode = currentnode.right
+        return currentnode
+
+    def delete_node(self, current_node, value):
+        if current_node is None:
+            return current_node
+        node = self.find(current_node, value)
+        if node is None:
+            return None
+        else:
+            # if the node to be deleted is a leaf node or has 
+            # only one child
+            rightmost = self.get_right_most_node(current_node)
+            node.val = rightmost.val
+            rightmost = None
+        return current_node
+
 
 
 def get_test_btree_1():
@@ -91,8 +112,11 @@ def get_test_btree_1():
 
 def test_find():
     bt1 = get_test_btree_1()
-    bt1.printinorder(bt1.root)
     f = bt1.find(bt1.root, 2)
+    right = bt1.get_right_most_node(bt1.root)
+    bt1.delete_node(bt1.root, 10)
+    bt1.printinorder(bt1.root)
+    print(right.val)
     print(f.val)
 
 
